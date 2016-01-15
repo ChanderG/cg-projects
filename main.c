@@ -74,6 +74,39 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 	return pts;
 }
 
+/* returnVoxelCube
+ * Generates obj lines for a single cube.
+ * TODO: explain params and output
+ */
+char* returnVoxelCube(Point center, int* offset){
+	char* repn = malloc(500*sizeof(char)); //TODO: use a more appropriate number here.
+	// get representation here
+	sprintf(repn, "Hello"); // TODO: put correct stuff here
+	// TODO: use and update offset
+    return repn;
+}
+
+/* createVoxelImage
+ * Creates voxel boxes around points given.
+ * TODO: explain params and output
+ */
+void createVoxelImage(Point* pts, size_t len){
+	char* filename = "output.obj";
+
+	FILE *fp;
+	fp = fopen(filename, "w");
+	fprintf(fp, "# OBJ output from 3dss\n");
+
+	int offset = 0;
+	for (size_t i = 0; i < len; i++){
+		//output each cube's info
+		char* cube_string = returnVoxelCube(pts[i], &offset);
+		fputs(cube_string, fp);
+		fputs("\n", fp);
+	}
+	fclose(fp);
+}
+
 /* requires input as 
  * Sx, Sy, Sx
  * Ex, Ey, Ez
@@ -119,6 +152,8 @@ void main(int argc, char* argv[]){
 		printf("(%d, %d, %d)\n", pts[i].x, pts[i].y, pts[i].z);
 	}
 	printf("\n");
+
+	createVoxelImage(pts, len);
 
 	printf("WIP");
 	printf("\n");
