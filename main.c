@@ -1,5 +1,14 @@
 #include<stdio.h>
 
+/* Point structure
+ * Holds x,y,z coordinates of a point in 3D.
+ */
+struct Point{
+	int x;
+	int y;
+	int z;
+};
+
 /* requires input as 
  * Sx, Sy, Sx
  * Ex, Ey, Ez
@@ -16,17 +25,17 @@ void main(int argc, char* argv[]){
 	}
 
 	// parse out, store and print the coordinates
-	int sx, sy, sz;
-	int ex, ey, ez;
+	struct Point s;
+	struct Point e;
 
-	sx = atoi(argv[1]);
-	sy = atoi(argv[2]);
-	sz = atoi(argv[3]);
-	ex = atoi(argv[4]);
-	ey = atoi(argv[5]);
-	ez = atoi(argv[6]);
+	s.x = atoi(argv[1]);
+	s.y = atoi(argv[2]);
+	s.z = atoi(argv[3]);
+	e.x = atoi(argv[4]);
+	e.y = atoi(argv[5]);
+	e.z = atoi(argv[6]);
 
-	printf("Input: \nS -- (%d, %d, %d) E -- (%d, %d, %d)\n", sx, sy, sz, ex, ey, ez);
+	printf("Input: \nS -- (%d, %d, %d) E -- (%d, %d, %d)\n", s.x, s.y, s.z, e.x, e.y, e.z);
 
 	printf("WIP");
 	printf("\n");
