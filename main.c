@@ -20,15 +20,57 @@ typedef struct {
  * OUTPUT:
  * ========
  * array of Point's, length stored in len
+ * 
+ * -----IMP-----
+ * For now, ONLY works for first case lines. ie 0 <= dy <= dx; 0 <= dz <= dx.
+ * -----IMP-----
  */
 Point *draw3DLine(Point s, Point e, size_t *len){
 	Point *pts;
-	int nos = 10;  //TODO: Calculate based on largest delta.
+	int nos = 100;  //TODO: Calculate based on largest delta.
 	pts = malloc(nos*sizeof(Point));
-	// For now: simply store start and end points
-	pts[0] = s;
-	pts[1] = e;
-	*len = 2;  // TODO: change to value calculated from actual number of points
+	int count = 0;
+    
+	int x,y,z;
+	x = s.x;
+	y = s.y;
+	z = s.z;	
+
+	int dx, dy, dz;
+	dx = e.x - s.x;
+	dy = e.y - s.y;
+	dz = e.z - s.z;
+
+	//Decision functions
+	int fxy = 2*dy - dx;
+	int fxz = 2*dz - dx;
+
+	pts[count] = (Point){ .x = x, .y = y, .z = z};
+	count++;
+
+	while(x < e.x){
+		x++;
+		if (fxy > 0){
+			y++;
+			fxy += 2*(dy - dx);
+		}
+		else{
+			fxy += 2*dy;
+		}
+
+		if(fxz > 0){
+			z++;
+			fxz += 2*(dz - dx);
+		}
+		else{
+			fxz += 2*dz;
+		}
+
+		pts[count] = (Point){ .x = x, .y = y, .z = z};
+		count++;
+	}
+
+	*len = count;  
 	return pts;
 }
 
