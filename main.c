@@ -3,11 +3,11 @@
 /* Point structure
  * Holds x,y,z coordinates of a point in 3D.
  */
-struct Point{
+typedef struct {
 	int x;
 	int y;
 	int z;
-};
+} Point;
 
 /* requires input as 
  * Sx, Sy, Sx
@@ -25,8 +25,8 @@ void main(int argc, char* argv[]){
 	}
 
 	// parse out, store and print the coordinates
-	struct Point s;
-	struct Point e;
+	Point s;
+	Point e;
 
 	s.x = atoi(argv[1]);
 	s.y = atoi(argv[2]);
