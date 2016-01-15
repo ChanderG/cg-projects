@@ -77,7 +77,14 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 
 /* returnVoxelCube
  * Generates obj lines for a single cube.
- * TODO: explain params and output
+ * INPUT:
+ * ========
+ * center -- Point, center of cube
+ * offset -- to share offset of vertices positioning in the output file 
+ *
+ * OUTPUT:
+ * ========
+ * char string consisting all lines corr to this cube
  */
 char* returnVoxelCube(Point center, int* offset){
 	char* repn = malloc(500*sizeof(char)); //TODO: use a more appropriate number here.
@@ -161,7 +168,14 @@ char* returnVoxelCube(Point center, int* offset){
 
 /* createVoxelImage
  * Creates voxel boxes around points given.
- * TODO: explain params and output
+ * INPUT:
+ * ========
+ * pts -- array of Points
+ * len --length of points array
+ *
+ * OUTPUT:
+ * ========
+ * Creates a .obj file named "output.obj" 
  */
 void createVoxelImage(Point* pts, size_t len){
 	char* filename = "output.obj";
