@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 
 /* Point structure
  * Holds x,y,z coordinates of a point in 3D.
@@ -81,7 +82,44 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 char* returnVoxelCube(Point center, int* offset){
 	char* repn = malloc(500*sizeof(char)); //TODO: use a more appropriate number here.
 	// get representation here
-	sprintf(repn, "Hello"); // TODO: put correct stuff here
+	sprintf(repn, "#Hello"); // TODO: put correct stuff here
+	strcat(repn, " Bye \n");
+	
+	// calculate vertices and faces here
+	int vertex_line_length = 25;
+	char* vertex_line_repn = "v %f %f %f %f\n";
+	char *v1 = malloc(vertex_line_length*sizeof(char));
+	sprintf(v1, vertex_line_repn, center.x - 0.5, center.y - 0.5, center.z + 0.5);
+	strcat(repn, v1);
+
+	char *v2 = malloc(vertex_line_length*sizeof(char));
+	sprintf(v2, vertex_line_repn, center.x + 0.5, center.y - 0.5, center.z + 0.5);
+	strcat(repn, v2);
+
+	char *v3 = malloc(vertex_line_length*sizeof(char));
+	sprintf(v3, vertex_line_repn, center.x + 0.5, center.y + 0.5, center.z + 0.5);
+	strcat(repn, v3);
+
+	char *v4 = malloc(vertex_line_length*sizeof(char));
+	sprintf(v4, vertex_line_repn, center.x - 0.5, center.y + 0.5, center.z + 0.5);
+	strcat(repn, v4);
+
+	char *v7 = malloc(vertex_line_length*sizeof(char));
+	sprintf(v7, vertex_line_repn, center.x - 0.5, center.y - 0.5, center.z - 0.5);
+	strcat(repn, v7);
+
+	char *v6 = malloc(vertex_line_length*sizeof(char));
+	sprintf(v6, vertex_line_repn, center.x + 0.5, center.y - 0.5, center.z - 0.5);
+	strcat(repn, v6);
+
+	char *v5 = malloc(vertex_line_length*sizeof(char));
+	sprintf(v5, vertex_line_repn, center.x + 0.5, center.y + 0.5, center.z - 0.5);
+	strcat(repn, v5);
+
+	char *v8 = malloc(vertex_line_length*sizeof(char));
+	sprintf(v8, vertex_line_repn, center.x - 0.5, center.y + 0.5, center.z - 0.5);
+	strcat(repn, v8);
+	
 	// TODO: use and update offset
     return repn;
 }
