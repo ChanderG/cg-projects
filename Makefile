@@ -1,4 +1,4 @@
 all: main.c
-	cc main.c
+	cc -std=c99 main.c
 clean:
 	rm *.out
