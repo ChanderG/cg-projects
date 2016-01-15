@@ -155,8 +155,7 @@ char* returnVoxelCube(Point center, int* offset){
 	strcat(repn, f5);
 	strcat(repn, f6);
 
-	// TODO: use and update offset
-	*offset += 14;
+	*offset += 8;
     return repn;
 }
 
@@ -174,12 +173,9 @@ void createVoxelImage(Point* pts, size_t len){
 	int offset = 0;
 	for (size_t i = 0; i < len; i++){
 		//output each cube's info
-        Point o = (Point){ .x = 0, .y = 0, .z = 0};
-		char* cube_string = returnVoxelCube(o, &offset);
-		//char* cube_string = returnVoxelCube(pts[i], &offset);
+		char* cube_string = returnVoxelCube(pts[i], &offset);
 		fputs(cube_string, fp);
 		fputs("#\n", fp);
-		break;  //TODO: REMOVE THIS
 	}
 	fclose(fp);
 }
