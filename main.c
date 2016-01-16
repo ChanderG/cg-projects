@@ -85,23 +85,30 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 	int fxy = 2*abs(dy) - abs(dx);
 	int fxz = 2*abs(dz) - abs(dx);
 
-	// Reverse swap before point selection
-	if (swap_flag == 0){
-		pts[count] = (Point){ .x = x, .y = y, .z = z};
-	}
-	else if (swap_flag == 1){
-		pts[count] = (Point){ .x = y, .y = x, .z = z};
-	}
-	else if (swap_flag == 2){
-		pts[count] = (Point){ .x = z, .y = y, .z = x};
-	}
-	else{
-	    printf("ERROR: Unknown swap. Contact the programmer.\n");
-		exit(0);
-	}
-	count++;
 
-	while(abs(x) < abs(e.x)){
+	do {
+	
+	    // Actual selection of point
+		// Selects point reached in prev loop -- first point the first time
+		// Reverse swap before point selection
+		if (swap_flag == 0){
+			pts[count] = (Point){ .x = x, .y = y, .z = z};
+		}
+		else if (swap_flag == 1){
+			pts[count] = (Point){ .x = y, .y = x, .z = z};
+		}
+		else if (swap_flag == 2){
+			pts[count] = (Point){ .x = z, .y = y, .z = x};
+		}
+		else{
+			printf("ERROR: Unknown swap. Contact the programmer.\n");
+			exit(0);
+		}
+		count++;
+
+		// reached the end
+		if (abs(x) == abs(e.x)) break;
+
 		if (dx >= 0) x++;
 		else x--;
 
@@ -123,22 +130,7 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 			fxz += 2*abs(dz);
 		}
 
-		// Reverse swap before point selection
-		if (swap_flag == 0){
-			pts[count] = (Point){ .x = x, .y = y, .z = z};
-		}
-		else if (swap_flag == 1){
-			pts[count] = (Point){ .x = y, .y = x, .z = z};
-		}
-		else if (swap_flag == 2){
-			pts[count] = (Point){ .x = z, .y = y, .z = x};
-		}
-		else{
-			printf("ERROR: Unknown swap. Contact the programmer.\n");
-			exit(0);
-		}
-		count++;
-	}
+	}while(abs(x) <= abs(e.x));
 
 	*len = count;  
 	return pts;
