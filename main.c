@@ -55,6 +55,10 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 		temp = dx;
 		dx = dy;
 		dy = temp;
+
+		temp = e.x;
+		e.x = e.y;
+		e.y = temp;
 	}
 	else{
 		swap_flag = 2;
@@ -66,6 +70,10 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 		temp = dx;
 		dx = dz;
 		dz = temp;
+
+		temp = e.x;
+		e.x = e.z;
+		e.z = temp;
 	}
 
 	Point *pts;
@@ -74,8 +82,8 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 	int count = 0;
 
 	//Decision functions
-	int fxy = 2*dy - dx;
-	int fxz = 2*dz - dx;
+	int fxy = 2*abs(dy) - abs(dx);
+	int fxz = 2*abs(dz) - abs(dx);
 
 	// Reverse swap before point selection
 	if (swap_flag == 0){
@@ -93,22 +101,26 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 	}
 	count++;
 
-	while(x < e.x){
-		x++;
+	while(abs(x) < abs(e.x)){
+		if (dx >= 0) x++;
+		else x--;
+
 		if (fxy > 0){
-			y++;
-			fxy += 2*(dy - dx);
+			if(dy >= 0) y++;
+			else y--;
+			fxy += 2*(abs(dy) - abs(dx));
 		}
 		else{
-			fxy += 2*dy;
+			fxy += 2*abs(dy);
 		}
 
 		if(fxz > 0){
-			z++;
-			fxz += 2*(dz - dx);
+			if(dz >= 0) z++;
+			else z--;
+			fxz += 2*(abs(dz) - abs(dx));
 		}
 		else{
-			fxz += 2*dz;
+			fxz += 2*abs(dz);
 		}
 
 		// Reverse swap before point selection
