@@ -85,9 +85,7 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 	int fxy = 2*abs(dy) - abs(dx);
 	int fxz = 2*abs(dz) - abs(dx);
 
-
 	do {
-	
 	    // Actual selection of point
 		// Selects point reached in prev loop -- first point the first time
 		// Reverse swap before point selection
@@ -130,7 +128,7 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 			fxz += 2*abs(dz);
 		}
 
-	}while(abs(x) <= abs(e.x));
+	}while(1);
 
 	*len = count;  
 	return pts;
