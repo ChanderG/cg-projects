@@ -22,16 +22,9 @@ typedef struct {
  * ========
  * array of Point's, length stored in len
  * 
- * -----IMP-----
- * For now, ONLY works for first case lines. ie 0 <= dy <= dx; 0 <= dz <= dx.
- * -----IMP-----
  */
 Point *draw3DLine(Point s, Point e, size_t *len){
-	Point *pts;
-	int nos = 100;  //TODO: Calculate based on largest delta.
-	pts = malloc(nos*sizeof(Point));
-	int count = 0;
-    
+
 	int x,y,z;
 	x = s.x;
 	y = s.y;
@@ -42,11 +35,62 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 	dy = e.y - s.y;
 	dz = e.z - s.z;
 
+	/* Ternary flag to handle swaps to handle different ranges of slopes.
+	 * 0 -- no swap
+	 * 1 -- x,y swapped
+	 * 2 -- x,z swapped
+	 */
+	int swap_flag = 0;
+	int temp;
+	if((abs(dx) >= abs(dy)) && (abs(dx) >= abs(dz))){
+	    swap_flag = 0;
+	}
+	else if((abs(dy) >= abs(dx)) && (abs(dy) >= abs(dz))){
+		swap_flag = 1;
+		// SWAP here all occurences of x and y
+		temp = x;
+		x = y;
+		y = temp;
+
+		temp = dx;
+		dx = dy;
+		dy = temp;
+	}
+	else{
+		swap_flag = 2;
+		// SWAP here all occurences of x and z
+		temp = x;
+		x = z;
+		z = temp;
+
+		temp = dx;
+		dx = dz;
+		dz = temp;
+	}
+
+	Point *pts;
+	int nos = abs(dx) + 1;  //TODO: Calculate based on largest delta.
+	pts = malloc(nos*sizeof(Point));
+	int count = 0;
+
 	//Decision functions
 	int fxy = 2*dy - dx;
 	int fxz = 2*dz - dx;
 
-	pts[count] = (Point){ .x = x, .y = y, .z = z};
+	// Reverse swap before point selection
+	if (swap_flag == 0){
+		pts[count] = (Point){ .x = x, .y = y, .z = z};
+	}
+	else if (swap_flag == 1){
+		pts[count] = (Point){ .x = y, .y = x, .z = z};
+	}
+	else if (swap_flag == 2){
+		pts[count] = (Point){ .x = z, .y = y, .z = x};
+	}
+	else{
+	    printf("ERROR: Unknown swap. Contact the programmer.\n");
+		exit(0);
+	}
 	count++;
 
 	while(x < e.x){
@@ -67,7 +111,20 @@ Point *draw3DLine(Point s, Point e, size_t *len){
 			fxz += 2*dz;
 		}
 
-		pts[count] = (Point){ .x = x, .y = y, .z = z};
+		// Reverse swap before point selection
+		if (swap_flag == 0){
+			pts[count] = (Point){ .x = x, .y = y, .z = z};
+		}
+		else if (swap_flag == 1){
+			pts[count] = (Point){ .x = y, .y = x, .z = z};
+		}
+		else if (swap_flag == 2){
+			pts[count] = (Point){ .x = z, .y = y, .z = x};
+		}
+		else{
+			printf("ERROR: Unknown swap. Contact the programmer.\n");
+			exit(0);
+		}
 		count++;
 	}
 
@@ -242,6 +299,6 @@ void main(int argc, char* argv[]){
 
 	createVoxelImage(pts, len);
 
-	printf("WIP");
+	printf("Check output file.");
 	printf("\n");
 }
