@@ -1,7 +1,9 @@
 #! /bin/bash
 
 echo "Ready the program: "
-make
+cd ..
+make line
+cd -
 echo ""
 
 echo "Running tests: "
