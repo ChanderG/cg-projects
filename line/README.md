@@ -1,4 +1,4 @@
-# Assignment 1
+# 3d line segment
 
 ### What?
 3d DSS enhanced with unit 1 cubes drawn around selected points.
