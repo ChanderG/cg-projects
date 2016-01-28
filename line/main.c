@@ -1,15 +1,8 @@
+#include"../common/common.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-
-/* Point structure
- * Holds x,y,z coordinates of a point in 3D.
- */
-typedef struct {
-	int x;
-	int y;
-	int z;
-} Point;
 
 /* draw3DLine
  * INPUT:
