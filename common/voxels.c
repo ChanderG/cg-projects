@@ -122,3 +122,32 @@ void createVoxelImage(Point* pts, size_t len){
 	}
 	fclose(fp);
 }
+
+/* createVoxelImage2D
+ * Creates voxel boxes around points given.
+ * Simply a wrapper over createVoxelImage
+ * INPUT:
+ * ========
+ * pts -- array of Point2D
+ * len --length of points array
+ *
+ * OUTPUT:
+ * ========
+ * Creates a .obj file named "output.obj" 
+ */
+void createVoxelImage2D(Point2D* pts, size_t len){
+  // create a list of 3d points taken from the 2d points
+  Point* pts3d = malloc(len*sizeof(Point));
+
+  Point p;
+  for(int i=0; i< len;i++){
+	p.x = pts[i].x;
+	p.y = pts[i].y;
+	p.z = 0;
+
+	pts3d[i] = p;
+  }
+
+  // simply call the 3d analog function
+  createVoxelImage(pts3d, len);
+}

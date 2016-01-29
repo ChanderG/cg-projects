@@ -10,6 +10,15 @@
 #include "../common/common.h"
 
 /*
+ * Create 2d triangle -- get points in/on a 2d triangle.
+ * Input -- the 3 corners of a triangle 
+ *          a length variable
+ * Ouput -- returns an array of 2D points
+ *          populates len variable with length of said array
+ */
+Point2D* getTriangle2dPoints(Point2D a, Point2D b, Point2D c, size_t* len);
+
+/*
  * Draw a 2d Triangle.
  * Input -- the 3 corners of a triangle 
  * Output -- creates the output.obj file required.

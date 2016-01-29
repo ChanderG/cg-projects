@@ -36,4 +36,18 @@ char* returnVoxelCube(Point center, int* offset);
  */
 void createVoxelImage(Point* pts, size_t len);
 
+/* createVoxelImage2D
+ * Creates voxel boxes around points given.
+ * Simply a wrapper over createVoxelImage
+ * INPUT:
+ * ========
+ * pts -- array of Point2D
+ * len --length of points array
+ *
+ * OUTPUT:
+ * ========
+ * Creates a .obj file named "output.obj" 
+ */
+void createVoxelImage2D(Point2D* pts, size_t len);
+
 #endif
