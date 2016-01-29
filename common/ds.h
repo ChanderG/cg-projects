@@ -13,4 +13,12 @@ typedef struct {
 	int z;
 } Point;
 
+/* 2d Point structure
+ * Holds x,y coordinates of a point in 2D.
+ */
+typedef struct {
+	int x;
+	int y;
+} Point2D;
+
 #endif
