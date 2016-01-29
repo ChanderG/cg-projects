@@ -36,5 +36,6 @@ void main(int argc, char* argv[]){
 
 	printf("Input: \na -- (%d, %d) b -- (%d, %d) c -- (%d, %d)\n\n", a.x, a.y, b.x, b.y, c.x, c.y );
 
-	printf("WIP\n");
+	draw2dTriangle(a, b, c);
+	printf("Check output.obj file created.\n");
 }
