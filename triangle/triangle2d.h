@@ -8,6 +8,7 @@
 #include<stdio.h>
 
 #include "../common/common.h"
+#include "../line/line.h"
 
 /*
  * Create 2d triangle -- get points in/on a 2d triangle.

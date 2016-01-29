@@ -4,6 +4,34 @@
 
 #include"line.h"
 
+/*
+ * get point2ds lying on line between a and b 
+ * Input --
+ *  a, b -- Point2Ds representing endpoints
+ *  len  -- size_t to store length
+ * Output --
+ *  array of point2ds
+ *  length of said array
+ */
+Point2D* getLine2dPoints(Point2D a, Point2D b, size_t* len){
+  // convert 2d points to 3d points, run 3d algorithm and reconvert points back
+
+  // convert to 3d points
+  Point s,e;
+  s = get3dPointFrom2d(a);
+  e = get3dPointFrom2d(b);
+
+  // run 3d algorithm
+  Point* pts;
+  // use len itself
+
+  pts = getLine3dPoints(s, e, len);
+
+  // convert back to list of 2d points
+  Point2D *pts2 = convert3dPointArrayTo2d(pts, *len);
+  return pts2;
+}  
+
 /* getLine3dPoints
  * INPUT:
  * ========

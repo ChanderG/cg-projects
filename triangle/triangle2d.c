@@ -12,8 +12,16 @@
  *          populates len variable with length of said array
  */
 Point2D* getTriangle2dPoints(Point2D a, Point2D b, Point2D c, size_t* len){
-  // WIP
   
+  Point2D *ab, *ac, *bc;
+  size_t len_ab, len_ac, len_bc;
+
+  ab = getLine2dPoints(a, b, &len_ab);
+  ac = getLine2dPoints(a, c, &len_ac);
+  bc = getLine2dPoints(b, c, &len_bc);
+
+  // just for sample, draw the triangle border
+
   // for now return the corners alone
   Point2D *pts;
   int nos = 3;

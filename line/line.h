@@ -7,6 +7,17 @@
 
 #include"../common/common.h"
 
+/*
+ * get point2ds lying on line between a and b 
+ * Input --
+ *  a, b -- Point2Ds representing endpoints
+ *  len  -- size_t to store length
+ * Output --
+ *  array of point2ds
+ *  length of said array
+ */
+Point2D* getLine2dPoints(Point2D a, Point2D b, size_t* len);
+
 /* getLine3dPoints
  * INPUT:
  * ========
