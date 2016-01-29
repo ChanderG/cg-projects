@@ -3,4 +3,6 @@ common/common.o: common/ds.h common/voxels.h common/voxels.c
 line: common/common.o line/main.h line/main.c
 	cc -std=c99 common/common.o line/main.c -o line/a.out
 clean:
-	rm */a.out */*.o */output.obj
+	find . -type f -name '*.o' -delete
+	find . -type f -name 'a.out' -delete
+	find . -type f -name 'output.obj' -delete
