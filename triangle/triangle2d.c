@@ -21,7 +21,14 @@ Point2D* getTriangle2dPoints(Point2D a, Point2D b, Point2D c, size_t* len){
   bc = getLine2dPoints(b, c, &len_bc);
 
   // just for sample, draw the triangle border
+  Point2D* borders;
+  borders = append2DPointList(ab, len_ab, ac, len_ac);
+  borders = append2DPointList(borders, len_ab + len_ac, bc, len_bc);
 
+  *len = len_ab + len_ac + len_bc;
+  return borders;
+
+  /*
   // for now return the corners alone
   Point2D *pts;
   int nos = 3;
@@ -31,6 +38,7 @@ Point2D* getTriangle2dPoints(Point2D a, Point2D b, Point2D c, size_t* len){
   pts[2] = c;
   *len = 3;
   return pts;
+  */
 }
 
 /*
