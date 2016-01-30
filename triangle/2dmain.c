@@ -15,6 +15,7 @@
  * Creates a "output.obj" file that draws unit cubes around these points. 
  */
 void main(int argc, char* argv[]){
+    logm("main", "Start program.");
 	printf("2d Triangle runner:\n");
 	printf("No of args: %d\n", argc - 1);	
 	if (argc != 7){
@@ -38,4 +39,5 @@ void main(int argc, char* argv[]){
 
 	draw2dTriangle(a, b, c);
 	printf("Check output.obj file created.\n");
+	logm("main", "Main program ends.");
 }

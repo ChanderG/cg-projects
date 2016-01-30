@@ -3,5 +3,6 @@
 
 #include"ds.h"
 #include"voxels.h"
+#include"log.h"
 
 #endif
