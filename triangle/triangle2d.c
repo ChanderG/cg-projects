@@ -12,14 +12,6 @@
  *          populates len variable with length of said array
  */
 Point2D* getTriangle2dPoints(Point2D a, Point2D b, Point2D c, size_t* len){
-  
-  Point2D *ab, *ac, *bc;
-  size_t len_ab, len_ac, len_bc;
-
-  ab = getLine2dPoints(a, b, &len_ab);
-  ac = getLine2dPoints(a, c, &len_ac);
-  bc = getLine2dPoints(b, c, &len_bc);
-
   /*
    * operating procedure:
    * We scan from bottom to top, left to right.
@@ -29,6 +21,8 @@ Point2D* getTriangle2dPoints(Point2D a, Point2D b, Point2D c, size_t* len){
    */
 
   Point2D p, q, r, temp;
+  Point2D *pq, *pr, *qr;
+  size_t len_pq, len_pr, len_qr;
   // start with a dummy assignment
   p = a;
   q = b;
@@ -58,12 +52,16 @@ Point2D* getTriangle2dPoints(Point2D a, Point2D b, Point2D c, size_t* len){
   logm("getTriangle2dPoints", "q -- (%d, %d)", q.x, q.y);
   logm("getTriangle2dPoints", "r -- (%d, %d)", r.x, r.y);
 
+  pq = getLine2dPoints(p, q, &len_pq);
+  pr = getLine2dPoints(p, r, &len_pr);
+  qr = getLine2dPoints(q, r, &len_qr);
+
   // just for sample, draw the triangle border
   Point2D* borders;
-  borders = append2DPointList(ab, len_ab, ac, len_ac);
-  borders = append2DPointList(borders, len_ab + len_ac, bc, len_bc);
+  borders = append2DPointList(pq, len_pq, pr, len_pr);
+  borders = append2DPointList(borders, len_pq + len_pr, qr, len_qr);
 
-  *len = len_ab + len_ac + len_bc;
+  *len = len_pq + len_pr + len_qr;
   return borders;
 
   /*
