@@ -56,25 +56,87 @@ Point2D* getTriangle2dPoints(Point2D a, Point2D b, Point2D c, size_t* len){
   pr = getLine2dPoints(p, r, &len_pr);
   qr = getLine2dPoints(q, r, &len_qr);
 
-  // just for sample, draw the triangle border
-  Point2D* borders;
-  borders = append2DPointList(pq, len_pq, pr, len_pr);
-  borders = append2DPointList(borders, len_pq + len_pr, qr, len_qr);
+  // need to create the triangle itself
+  Point2D* t_pts = NULL;
+  size_t len_t_pts = 0;
 
-  *len = len_pq + len_pr + len_qr;
-  return borders;
+  // store points on current line segment
+  Point2D* curr_seg;
+  size_t len_curr_seg;
 
-  /*
-  // for now return the corners alone
-  Point2D *pts;
-  int nos = 3;
-  pts = malloc(nos*sizeof(Point2D));
-  pts[0] = a;
-  pts[1] = b;
-  pts[2] = c;
-  *len = 3;
-  return pts;
-  */
+  // representing index of current point on the 2 lines
+  int i,j;
+  i = 0; j = 0;
+
+  int k = p.y; // represents y coordinate of scan line
+
+  // to first edge completion
+  while ((k <= pq[len_pq - 1].y) && (k <= pr[len_pr - 1].y)){
+	// get point on that y level
+	while(pq[i].y != k) i++;
+	while(pr[j].y != k) j++;
+	// get points from this end to that
+    curr_seg = getLine2dPoints(pq[i], pr[j], &len_curr_seg);
+	// add to our triangle set
+	t_pts = append2DPointListWithCleanup(t_pts, len_t_pts, curr_seg, len_curr_seg);
+	len_t_pts += len_curr_seg;
+	logm("getTriangle2dPoints", "finished scanning line (phase 1) y = %d", k);
+	k++;
+  }
+
+  // second phase
+  if (k <= pq[len_pq - 1].y){
+	// will only be activated if pq is still active but pr is done
+	// so, start with qr, more specifically rq
+	
+	// repurpose j to use for rq
+	j = len_qr - 1;
+	
+    while(k <= pq[len_pq - 1].y){
+	  // get point on that y level
+	  while(pq[i].y != k) i++;
+	  while(qr[j].y != k) j--;
+
+	  curr_seg = getLine2dPoints(pq[i], qr[j], &len_curr_seg);
+	  t_pts = append2DPointListWithCleanup(t_pts, len_t_pts, curr_seg, len_curr_seg);
+	  len_t_pts += len_curr_seg;
+	  logm("getTriangle2dPoints", "finished scanning line (phase 2) y = %d", k);
+	  k++;
+	}
+  }
+
+  if (k <= pr[len_pr - 1].y){
+	// will be activated if pr is still active but pq is done
+	// so, start with qr
+	
+	// repurpose j to use for rq
+	i = 0;
+
+	while(k <= pr[len_pr - 1].y){
+	  // get point on that y level
+	  while(qr[i].y != k) i++;
+	  while(pr[j].y != k) j++;
+
+	  curr_seg = getLine2dPoints(qr[i], pr[j], &len_curr_seg);
+	  t_pts = append2DPointListWithCleanup(t_pts, len_t_pts, curr_seg, len_curr_seg);
+	  len_t_pts += len_curr_seg;
+	  logm("getTriangle2dPoints", "finished scanning line (phase 2) y = %d", k);
+	  k++;
+	}
+  }
+
+  // add borders for good measure
+  // should not be required, strictly required, correct later
+  // added to counter a particular corner case: where q/r lie on same y axis as p
+  t_pts = append2DPointList(t_pts, len_t_pts, pq, len_pq);
+  len_t_pts += len_pq;
+  t_pts = append2DPointList(t_pts, len_t_pts, pr, len_pr);
+  len_t_pts += len_pr;
+  t_pts = append2DPointList(t_pts, len_t_pts, qr, len_qr);
+  len_t_pts += len_qr;
+ 
+  *len = len_t_pts;
+  return t_pts;
 }
 
 /*

@@ -87,3 +87,17 @@ Point2D* append2DPointList(Point2D* main, size_t len_main, Point2D* extra, size_
 
   return new_list;
 }
+
+/*
+ * Wrapper on append2DPointList that additionally cleans up input array.
+ */
+Point2D* append2DPointListWithCleanup(Point2D* main, size_t len_main, Point2D* extra, size_t len_extra){
+  // simply call append2DPointList
+  Point2D* ret_val = append2DPointList(main, len_main, extra, len_extra);
+
+  // clean up inputs
+  free(main);
+  free(extra);
+
+  return ret_val;
+}
