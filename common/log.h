@@ -9,11 +9,12 @@
 #include<stdlib.h>
 #include<time.h>
 #include<string.h>
+#include<stdarg.h>
 
 /*
  * Writes message to log file.
  * Specifically -- "output.log"
  */
-void logm(const char* tag, const char* message);
+void logm(const char* tag, char* message_fmt, ...);
 
 #endif

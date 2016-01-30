@@ -20,6 +20,44 @@ Point2D* getTriangle2dPoints(Point2D a, Point2D b, Point2D c, size_t* len){
   ac = getLine2dPoints(a, c, &len_ac);
   bc = getLine2dPoints(b, c, &len_bc);
 
+  /*
+   * operating procedure:
+   * We scan from bottom to top, left to right.
+   * TO that end, need to create 3 different aliases p, q, r to refer to these points.
+   * However, p is going to refer to bootom most point.
+   * q to the left of the remaining 2, r the right one.
+   */
+
+  Point2D p, q, r, temp;
+  // start with a dummy assignment
+  p = a;
+  q = b;
+  r = c;
+
+  if (q.y < p.y){
+	// swap p and q 
+	temp = p;
+	p = q;
+	q = temp;
+  }
+  if (r.y < p.y){
+	// swap p and r
+	temp = p;
+	p = r;
+	r = temp;
+  }
+
+  if (q.x > r.x){
+	// if q is to the right of r, swap q and r
+	temp = q;
+	q = r;
+	r = temp;
+  }
+
+  logm("getTriangle2dPoints", "p -- (%d, %d)", p.x, p.y);
+  logm("getTriangle2dPoints", "q -- (%d, %d)", q.x, q.y);
+  logm("getTriangle2dPoints", "r -- (%d, %d)", r.x, r.y);
+
   // just for sample, draw the triangle border
   Point2D* borders;
   borders = append2DPointList(ab, len_ab, ac, len_ac);
