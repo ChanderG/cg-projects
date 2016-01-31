@@ -126,7 +126,7 @@ Point *getLine3dPoints(Point s, Point e, size_t *len){
 		count++;
 
 		// reached the end
-		if (abs(x) == abs(e.x)) break;
+		if (x == e.x) break;
 
 		if (dx >= 0) x++;
 		else x--;
