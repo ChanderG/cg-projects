@@ -10,6 +10,8 @@ line: common/common.o line/main.h line/main.c line/line.h line/line.c
 	cc -std=c99 common/common.o line/main.c line/line.c -o line/a.out
 2dt: common/common.o triangle/2dmain.h triangle/2dmain.c triangle/triangle2d.h triangle/triangle2d.c line/line.h line/line.c
 	cc -std=c99 common/common.o triangle/2dmain.c triangle/triangle2d.c line/line.c -o triangle/a.out
+3dt: common/common.o triangle/3dmain.h triangle/3dmain.c triangle/triangle3d.h triangle/triangle3d.c  triangle/triangle2d.h triangle/triangle3d.c line/line.h line/line.c
+	cc -std=c99 common/common.o triangle/3dmain.c triangle/triangle3d.c triangle/triangle2d.c line/line.c -o triangle/a.out
 clean:
 	find . -type f -name '*.o' -delete
 	find . -type f -name 'a.out' -delete
