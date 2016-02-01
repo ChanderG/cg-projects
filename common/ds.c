@@ -28,18 +28,14 @@ Point2D get2dPointFrom3d(Point p){
 
 /*
  * Convert array of Point2D to array of Points
+ * Wrapper on convert2dPointArrayTo3dWithMapping with axis_marker Z
  * Input -- array of Point2D
  *          size of said array
  * Output -- array of Points of same size
  */
 Point* convert2dPointArrayTo3d(Point2D* pts2, size_t len){
-  Point* pts3 = malloc(len*sizeof(Point));
-
-  for (int i=0;i < len;i++){
-	pts3[i] = get3dPointFrom2d(pts2[i]);
-  }
-
-  return pts3;
+  // call the more general function with axis_marker Z
+  return convert2dPointArrayTo3dWithMapping(pts2, len, Z);
 }
 
 /*
@@ -151,4 +147,21 @@ Point2D get2dPointFrom3dWithMapping(Point p, axis_marker axis){
   }
 
   return p2;
+}
+
+/*
+ * Convert array of Point2D to array of Points given axes of mapping
+ * Input -- array of Point2D
+ *          size of said array
+ *          axes of mapping as an axis_marker
+ * Output -- array of Points of same size
+ */
+Point* convert2dPointArrayTo3dWithMapping(Point2D* pts2, size_t len, axis_marker axis){
+  Point* pts3 = malloc(len*sizeof(Point));
+
+  for (int i=0;i < len;i++){
+	pts3[i] = get3dPointFrom2dWithMapping(pts2[i], axis);
+  }
+
+  return pts3;
 }

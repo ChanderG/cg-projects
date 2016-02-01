@@ -50,6 +50,7 @@ Point2D get2dPointFrom3d(Point p);
 
 /*
  * Convert array of Point2D to array of Points
+ * Wrapper on convert2dPointArrayTo3dWithMapping with axis_marker Z
  * Input -- array of Point2D
  *          size of said array
  * Output -- array of Points of same size
@@ -88,4 +89,14 @@ Point get3dPointFrom2dWithMapping(Point2D p, axis_marker axis);
  * Output -- corr Point2D
  */
 Point2D get2dPointFrom3dWithMapping(Point p, axis_marker axis);
+
+/*
+ * Convert array of Point2D to array of Points given axes of mapping
+ * Input -- array of Point2D
+ *          size of said array
+ *          axes of mapping as an axis_marker
+ * Output -- array of Points of same size
+ */
+Point* convert2dPointArrayTo3dWithMapping(Point2D* pts2, size_t len, axis_marker axis);
+
 #endif

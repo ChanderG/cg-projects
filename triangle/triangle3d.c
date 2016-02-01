@@ -52,17 +52,40 @@ Point* getTriangle3dPoints(Point a, Point b, Point c, size_t* len){
   logm("getTriangle3dPoints", "p (%d, %d), q(%d, %d), r(%d, %d)", p.x, p.y, q.x, q.y, r.x, r.y);
 
   // now draw triangle in 2d
+  size_t len_t2d;
+  Point2D* t2d_2d = getTriangle2dPoints(p, q, r, &len_t2d);
+  // we now have all points in 2d
   
-  // add the missing coordinate
+  // do a raw conversion to 3d
+  Point* t = convert2dPointArrayTo3dWithMapping(t2d_2d, len_t2d, axis);
+  
+  int l, u;
+  // loop over the points and add the missing coordinate
+  for(int i=0; i< len_t2d; i++){
+	if (axis == X){
+	  // fill in other 2 variables
+	  //l = (-1*abs(A) -2*B*t[i].y -2*C*t[i].z -2*D)/(2*A);
+	  u = (abs(A) - 2*B*t[i].y - 2*C*t[i].z - 2*D)/(2*A);
 
-  // for now, just add endpoints
-  Point* pts = malloc(3*sizeof(Point));
-  pts[0] = a;
-  pts[1] = b;
-  pts[2] = c;
+	  // for now set to floor of upper
+	  t[i].x = u;
+	}
+	if (axis == Y){
+	  u = (abs(B) - 2*A*t[i].x - 2*C*t[i].z - 2*D)/(2*B);
 
-  *len = 3;
-  return pts;
+	  // for now set to floor of upper
+	  t[i].y = u;
+	}
+	if (axis == Z){
+	  u = (abs(C) - 2*A*t[i].x - 2*B*t[i].y - 2*D)/(2*C);
+
+	  // for now set to floor of upper
+	  t[i].z = u;
+	}
+  }
+
+  *len = len_t2d;
+  return t;
 }
 
 /*
