@@ -6,29 +6,24 @@
 
 /*
  * convert 2d point to 3d
+ * Wrapper on get3dPointFrom2dWithMapping
  * Input -- a point2d
  * Output -- corr Point
  */
 Point get3dPointFrom2d(Point2D p){
   // simply pad z as 0
-  Point p3;
-  p3.x = p.x;
-  p3.y = p.y;
-  p3.z = 0;
-  return p3;
+  return get3dPointFrom2dWithMapping(p, Z);
 }
 
 /*
  * Convert 3d point to 2d.
+ * Wrapper on get2dPointFrom3dWithMapping
  * Input -- a Point
  * Output -- corr Point2D
  */
 Point2D get2dPointFrom3d(Point p){
   // simply ignore z
-  Point2D p2;
-  p2.x = p.x;
-  p2.y = p.y;
-  return p2;
+  return get2dPointFrom3dWithMapping(p, Z);
 }
 
 /*
@@ -100,4 +95,60 @@ Point2D* append2DPointListWithCleanup(Point2D* main, size_t len_main, Point2D* e
   free(extra);
 
   return ret_val;
+}
+
+/*
+ * convert 2d point to 3d with mapping
+ * Input -- a point2d, an axis to drop/take
+ * Output -- corr Point
+ */
+Point get3dPointFrom2dWithMapping(Point2D p, axis_marker axis){
+  Point p3;
+  if (axis == X){
+	p3.x = 0;
+	p3.y = p.x;
+	p3.z = p.y;
+  }
+  else if (axis == Y){
+	p3.x = p.x;
+	p3.y = 0;
+	p3.z = p.y;
+  }
+  else if (axis == Z){
+	p3.x = p.x;
+	p3.y = p.y;
+	p3.z = 0;
+  }
+  else{
+	// impossible
+  }
+
+  return p3;
+}
+
+/*
+ * Convert 3d point to 2d with mapping
+ * Input -- a Point, an axis to drop/take
+ * Output -- corr Point2D
+ */
+Point2D get2dPointFrom3dWithMapping(Point p, axis_marker axis){
+  Point2D p2;
+
+  if (axis == X){
+	p2.x = p.y;
+	p2.y = p.z;
+  }
+  else if (axis == Y){
+	p2.x = p.x;
+	p2.y = p.z;
+  }
+  else if (axis == Z){
+	p2.x = p.x;
+	p2.y = p.y;
+  }
+  else{
+	// impossible
+  }
+
+  return p2;
 }

@@ -24,7 +24,17 @@ typedef struct {
 } Point2D;
 
 /*
+ * Axis marker.
+ * One of 0, 1, 2
+ * 0 -- represents z axis
+ * 1 -- represents y axis
+ * 2 -- represents x axis
+ */
+typedef enum {Z, Y, X} axis_marker;
+
+/*
  * convert 2d point to 3d
+ * Wrapper on get3dPointFrom2dWithMapping
  * Input -- a point2d
  * Output -- corr Point
  */
@@ -32,6 +42,7 @@ Point get3dPointFrom2d(Point2D p);
 
 /*
  * Convert 3d point to 2d.
+ * Wrapper on get2dPointFrom3dWithMapping
  * Input -- a Point
  * Output -- corr Point2D
  */
@@ -64,4 +75,17 @@ Point2D* append2DPointList(Point2D* main, size_t len_main, Point2D* extra, size_
  */
 Point2D* append2DPointListWithCleanup(Point2D* main, size_t len_main, Point2D* extra, size_t len_extra);
 
+/*
+ * convert 2d point to 3d with mapping
+ * Input -- a point2d, an axis to drop/take
+ * Output -- corr Point
+ */
+Point get3dPointFrom2dWithMapping(Point2D p, axis_marker axis);
+
+/*
+ * Convert 3d point to 2d with mapping
+ * Input -- a Point, an axis to drop/take
+ * Output -- corr Point2D
+ */
+Point2D get2dPointFrom3dWithMapping(Point p, axis_marker axis);
 #endif

@@ -27,6 +27,34 @@ Point* getTriangle3dPoints(Point a, Point b, Point c, size_t* len){
 
   logm("getTriangle3dPoints", "Plane params: A = %d, B = %d, C = %d, D = %d", A, B, C, D);
 
+  Point2D p, q, r;
+  axis_marker axis;
+
+  if ((abs(A) >= abs(B)) && (abs(A) >= abs(C))){
+	// A is largest of coefficients
+    axis = X;	
+    logm("getTriangle3dPoints", "Chosen X as axis.");
+  }
+  else if ((abs(B) >= abs(A)) && (abs(B) >= abs(C))){
+	// B is largest of coefficients
+    axis = Y;	
+    logm("getTriangle3dPoints", "Chosen Y as axis.");
+  }
+  else{
+	// C is largest of coefficients
+    axis = Z;	
+    logm("getTriangle3dPoints", "Chosen Z as axis.");
+  }
+
+  p = get2dPointFrom3dWithMapping(a, axis);
+  q = get2dPointFrom3dWithMapping(b, axis);
+  r = get2dPointFrom3dWithMapping(c, axis);
+  logm("getTriangle3dPoints", "p (%d, %d), q(%d, %d), r(%d, %d)", p.x, p.y, q.x, q.y, r.x, r.y);
+
+  // now draw triangle in 2d
+  
+  // add the missing coordinate
+
   // for now, just add endpoints
   Point* pts = malloc(3*sizeof(Point));
   pts[0] = a;
