@@ -31,6 +31,37 @@ run_2d_tests ()
   echo "Ran $(($n)) test(s)"
 }
 
+run_3d_tests ()
+{
+  echo "Running 3d test set: "
+  echo "Ready the program: "
+  cd ..
+  make 3dt
+  cd -
+  echo ""
+
+  echo "Running tests: "
+  for ((n = 0;;n++))
+  do
+	if [ -f "testsuite/3d/t$n.sh" ]
+	then
+	  # run the 'nth' test
+	  ./testsuite/3d/t$n.sh > /dev/null
+
+	  if diff -q output.obj testsuite/3d/r$n.obj
+	  then
+		echo "Test #$n passed."
+	  else
+		echo "Test #$n failed."
+	  fi 
+	else
+	  break
+	fi
+  done
+
+  echo "Ran $(($n)) test(s)"
+}
+
 # test type input
 TYPE=$1
 
@@ -47,4 +78,7 @@ fi
 
 if [ "$TYPE" == "2d" ]; then
   run_2d_tests
+fi
+if [ "$TYPE" == "3d" ]; then
+  run_3d_tests
 fi
