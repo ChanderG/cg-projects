@@ -59,7 +59,7 @@ Point* getTriangle3dPoints(Point a, Point b, Point c, size_t* len){
   // do a raw conversion to 3d
   Point* t = convert2dPointArrayTo3dWithMapping(t2d_2d, len_t2d, axis);
   
-  float l, u;
+  float l, u, temp;
   // loop over the points and add the missing coordinate
   for(int i=0; i< len_t2d; i++){
 	if (axis == X){
@@ -67,28 +67,52 @@ Point* getTriangle3dPoints(Point a, Point b, Point c, size_t* len){
 	  l = 1.0*(-1*abs(A) -2*B*t[i].y -2*C*t[i].z -2*D)/(2*A);
 	  u = 1.0*(abs(A) - 2*B*t[i].y - 2*C*t[i].z - 2*D)/(2*A);
 
+	  // ensure larger and lower
+	  if (l > u){
+		temp = l;
+		l = u;
+		u = temp;
+	  }
+
 	  logm("getTriangle3dPoints", "i: %d, l=%0.2f u=%0.2f", i, l, u);
 
-	  // for now set to floor of upper
-	  t[i].x = (int)((u > l)?u:l);
+	  // set to floor of u; if the this is negeative, subtract 1 from it 
+	  t[i].x = (int)((u < 0)?u-1:u);
+	  logm("getTriangle3dPoints", "Choose -- %d", t[i].x);
 	}
 	if (axis == Y){
 	  l = 1.0*(-1*abs(B) - 2*A*t[i].x - 2*C*t[i].z - 2*D)/(2*B);
 	  u = 1.0*(abs(B) - 2*A*t[i].x - 2*C*t[i].z - 2*D)/(2*B);
 
+	  // ensure larger and lower
+	  if (l > u){
+		temp = l;
+		l = u;
+		u = temp;
+	  }
+
 	  logm("getTriangle3dPoints", "i: %d, l=%0.2f u=%0.2f", i, l, u);
 
-	  // for now set to floor of upper
-	  t[i].y = (int)((u > l)?u:l);
+	  // set to floor of u; if the this is negeative, subtract 1 from it 
+	  t[i].y = (int)((u < 0)?u-1:u);
+	  logm("getTriangle3dPoints", "Choose -- %d", t[i].y);
 	}
 	if (axis == Z){
 	  l = 1.0*(-1*abs(C) - 2*A*t[i].x - 2*B*t[i].y - 2*D)/(2*C);
 	  u = 1.0*(abs(C) - 2*A*t[i].x - 2*B*t[i].y - 2*D)/(2*C);
 
+	  // ensure larger and lower
+	  if (l > u){
+		temp = l;
+		l = u;
+		u = temp;
+	  }
+
 	  logm("getTriangle3dPoints", "i: %d, l=%0.2f u=%0.2f", i, l, u);
 
-	  // for now set to floor of upper
-	  t[i].z = (int)((u > l)?u:l);
+	  // set to floor of u; if the this is negeative, subtract 1 from it 
+	  t[i].z = (int)((u < 0)?u-1:u);
+	  logm("getTriangle3dPoints", "Choose -- %d", t[i].z);
 	}
   }
 
