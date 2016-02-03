@@ -17,10 +17,13 @@
  */
 char* returnVoxelCube(Point center, int* offset){
 	char* repn = malloc(500*sizeof(char)); //TODO: use a more appropriate number here.
+	// set initial dummy value
+	sprintf(repn, "");
+
 	// get representation here
 	
 	// calculate vertices and faces here
-	int vertex_line_length = 25;
+	int vertex_line_length = 50;
 	char* vertex_line_repn = "v %f %f %f \n";
 
 	char *v1 = malloc(vertex_line_length*sizeof(char));
@@ -57,7 +60,7 @@ char* returnVoxelCube(Point center, int* offset){
 	strcat(repn, v8);
 
 	// dealing with faces
-	int face_line_length = 20;
+	int face_line_length = 50;
 	char *f1, *f2, *f3, *f4, *f5, *f6; 
 	f1 = malloc(face_line_length*sizeof(char));
 	f2 = malloc(face_line_length*sizeof(char));
@@ -91,6 +94,23 @@ char* returnVoxelCube(Point center, int* offset){
 	strcat(repn, f5);
 	strcat(repn, f6);
 
+	// free memeory alloted vertice and face strings
+    free(v1);	
+    free(v2);	
+    free(v3);	
+    free(v4);	
+    free(v5);	
+    free(v6);	
+    free(v7);	
+    free(v8);	
+
+	free(f1);
+	free(f2);
+	free(f3);
+	free(f4);
+	free(f5);
+	free(f6);
+
 	*offset += 8;
     return repn;
 }
@@ -119,6 +139,7 @@ void createVoxelImage(Point* pts, size_t len){
 		char* cube_string = returnVoxelCube(pts[i], &offset);
 		fputs(cube_string, fp);
 		fputs("#\n", fp);
+		logm("createVoxelImage", "Drew cube #%d of %d", i, len);
 	}
 	fclose(fp);
 }

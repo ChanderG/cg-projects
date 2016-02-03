@@ -5,6 +5,7 @@
 #define VOXELS_H
 
 #include"ds.h"
+#include"log.h"
 
 #include<stdio.h>
 #include<stdlib.h>

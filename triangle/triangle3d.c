@@ -116,6 +116,8 @@ Point* getTriangle3dPoints(Point a, Point b, Point c, size_t* len){
 	}
   }
 
+  logm("getTriangle3dPoints", "Completed points calculation. No. of points: %d", len_t2d);
+
   *len = len_t2d;
   return t;
 }
