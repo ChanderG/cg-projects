@@ -5,6 +5,58 @@
 #include "triangle3d.h"
 
 /*
+ * Helpers
+ */
+
+/*
+ * Return minimum of 3 numbers.
+ */
+int min3(int a, int b, int c){
+  int m = a;
+  if (b < m)
+    m = b;
+  if (c < m)
+    m = c;
+  return m;
+}
+
+/*
+ * Return maximum of 3 numbers.
+ */
+int max3(int a, int b, int c){
+  int m = a;
+  if (b > m)
+    m = b;
+  if (c > m)
+    m = c;
+  return m;
+}
+
+/*
+ * Calculate plane equation along axis X.
+ */
+int planeCalcX(int A, int B, int C, int D, Point p, int pred){
+  int val = 2*(A*pred + B*p.y + C*p.z + D);
+  return (-1*abs(A) < val) && (val < abs(A));
+}
+
+/*
+ * Calculate plane equation along axis Y.
+ */
+int planeCalcY(int A, int B, int C, int D, Point p, int pred){
+  int val = 2*(A*p.x + B*pred + C*p.z + D);
+  return (-1*abs(B) < val) && (val < abs(B));
+}
+
+/*
+ * Calculate plane equation along axis Z.
+ */
+int planeCalcZ(int A, int B, int C, int D, Point p, int pred){
+  int val = 2*(A*p.x + B*p.y + C*pred + D);
+  return (-1*abs(C) < val) && (val < abs(C));
+}
+
+/*
  * Create 3d triangle -- get points in/on a 3d triangle.
  * Input -- the 3 corners of a triangle 
  *          a length variable
@@ -80,7 +132,140 @@ Point* getTriangle3dPoints(Point a, Point b, Point c, size_t* len){
   
   // do a raw conversion to 3d
   Point* t = convert2dPointArrayTo3dWithMapping(t2d_2d, len_t2d, axis);
-  
+
+  /*
+   * Pure int technique
+   * History relying on brute-force:
+   * Use history. If fails, resort to brute-force between end points.
+   */
+  int prev_other;  //prev found value of the other coordinate.
+  int max_other, min_other; // range of other 
+
+  // set up range and initital prediction of the 3rd coordinate
+  if( axis == X ){
+    min_other = min3(a.x, b.x, c.x) - 1;
+    max_other = max3(a.x, b.x, c.x) + 1;
+    prev_other = min_other;
+  }
+  if( axis == Y ){
+    min_other = min3(a.y, b.y, c.y) - 1;
+    max_other = max3(a.y, b.y, c.y) + 1;
+    prev_other = min_other;
+  }
+  if( axis == Z ){
+    min_other = min3(a.z, b.z, c.z) - 1;
+    max_other = max3(a.z, b.z, c.z) + 1;
+    prev_other = min_other;
+  }
+
+  // boolean if point is done or not
+  int point_done = 0;
+  // history-brute for all points
+  for(int i=0; i< len_t2d; i++){
+    point_done = 0;
+	// were other axis -- X
+	if (axis == X){
+	  // try out delta from prev
+      for (int j = -1; j!= 2;j++){
+		if (planeCalcX(A, B, C, D, t[i], prev_other + j) == 1){
+		  // if this works out
+		  prev_other = prev_other + j;
+		  t[i].x = prev_other;
+		  point_done = 1;
+		  logm("getTriangle3dPoints", "Point %d/%d handled by history.", i, len_t2d);
+		  break;
+		}
+	  }
+	
+	  // check if history worked out
+	  if (point_done == 1)
+		continue;
+
+	  // history failed.
+	  // Brute force.
+      for (int j = min_other; j!= max_other + 1;j++){
+		if (planeCalcX(A, B, C, D, t[i],j) == 1){
+		  // if this works out
+		  prev_other = j;
+		  t[i].x = prev_other;
+		  point_done = 1;
+		  logm("getTriangle3dPoints", "Point %d/%d handled by brute-force.", i, len_t2d);
+		  break;
+		}
+	  }
+	}
+
+	// were other axis -- Y
+	if (axis == Y){
+	  // try out delta from prev
+      for (int j = -1; j!= 2;j++){
+		if (planeCalcY(A, B, C, D, t[i], prev_other + j) == 1){
+		  // if this works out
+		  prev_other = prev_other + j;
+		  t[i].y = prev_other;
+		  point_done = 1;
+		  logm("getTriangle3dPoints", "Point %d/%d handled by history.", i, len_t2d);
+		  break;
+		}
+	  }
+
+	  // check if history worked out
+	  if (point_done == 1)
+		continue;
+
+	  // history failed.
+	  // Brute force.
+      for (int j = min_other; j!= max_other + 1;j++){
+		if (planeCalcY(A, B, C, D, t[i],j) == 1){
+		  // if this works out
+		  prev_other = j;
+		  t[i].y = prev_other;
+		  point_done = 1;
+		  logm("getTriangle3dPoints", "Point %d/%d handled by brute-force.", i, len_t2d);
+		  break;
+		}
+	  }
+	}
+
+	// were other axis -- Z
+	if (axis == Z){
+	  // try out delta from prev
+      for (int j = -1; j!= 2;j++){
+		if (planeCalcZ(A, B, C, D, t[i], prev_other + j) == 1){
+		  // if this works out
+		  prev_other = prev_other + j;
+		  t[i].z = prev_other;
+		  point_done = 1;
+		  logm("getTriangle3dPoints", "Point %d/%d handled by history.", i, len_t2d);
+		  break;
+		}
+	  }
+
+	  // check if history worked out
+	  if (point_done == 1)
+		continue;
+
+	  // history failed.
+	  // Brute force.
+      for (int j = min_other; j!= max_other + 1;j++){
+		if (planeCalcZ(A, B, C, D, t[i],j) == 1){
+		  // if this works out
+		  prev_other = j;
+		  t[i].z = prev_other;
+		  point_done = 1;
+		  logm("getTriangle3dPoints", "Point %d/%d handled by brute-force.", i, len_t2d);
+		  break;
+		}
+	  }
+	}
+
+  }
+  /*
+   * End of history-brute technique.
+   */
+
+  /*
+   * Floating point technique.
   float l, u, temp;
   // loop over the points and add the missing coordinate
   for(int i=0; i< len_t2d; i++){
@@ -137,6 +322,7 @@ Point* getTriangle3dPoints(Point a, Point b, Point c, size_t* len){
 	  logm("getTriangle3dPoints", "Choose -- %d", t[i].z);
 	}
   }
+  */
 
   logm("getTriangle3dPoints", "Completed points calculation. No. of points: %d", len_t2d);
 
