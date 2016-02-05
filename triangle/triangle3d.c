@@ -27,6 +27,28 @@ Point* getTriangle3dPoints(Point a, Point b, Point c, size_t* len){
 
   logm("getTriangle3dPoints", "Plane params: A = %d, B = %d, C = %d, D = %d", A, B, C, D);
 
+  if ((A == 0) && (B == 0) && (C == 0)){
+	// in case all three points line on a straight line
+    // brute force: simply connect all three points
+	
+	// output variables
+	Point* pts;
+
+	// edge variables
+	Point *ab, *ac, *bc;
+	size_t len_ab, len_ac, len_bc;
+
+	ab = getLine3dPoints(a, b, &len_ab);
+	ac = getLine3dPoints(a, c, &len_ac);
+	bc = getLine3dPoints(b, c, &len_bc);
+
+	pts = append3DPointList(ab, len_ab, ac, len_ac);
+	pts = append3DPointList(pts, len_ab + len_ac, bc, len_bc);
+
+	*len = len_ab + len_ac + len_bc;
+	return pts;
+  }
+
   Point2D p, q, r;
   axis_marker axis;
 

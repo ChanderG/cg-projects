@@ -72,6 +72,12 @@ Point2D* convert3dPointArrayTo2d(Point* pts3, size_t len);
 Point2D* append2DPointList(Point2D* main, size_t len_main, Point2D* extra, size_t len_extra);
 
 /*
+ * Return a new list of Point, by appending extra to main.
+ * Length of new list is len_main + len_extra
+ */
+Point* append3DPointList(Point* main, size_t len_main, Point* extra, size_t len_extra);
+
+/*
  * Wrapper on append2DPointList that additionally cleans up input array.
  */
 Point2D* append2DPointListWithCleanup(Point2D* main, size_t len_main, Point2D* extra, size_t len_extra);
